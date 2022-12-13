@@ -30,7 +30,6 @@ addon.ldb = {}
 addon.tooltip = {}
 addon.menu = {}
 addon.core = {}
-addon.minimap = {}
 addon.mt = {}
 addon.statDisplay = {}
 addon.fonts = {}
