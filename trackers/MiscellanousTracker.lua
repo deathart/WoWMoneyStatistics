@@ -21,19 +21,19 @@ local AZERITE_REFORGE_UUID = 'AZERITEREFORGE_01'   -- Expenses from the Azerite 
 local BARBER_UUID = 'BARBER_01'                    -- Expenses from the Barber
 
 local function OnTrigger(uuid, t, m)
-   if m > 0 then
-      _G.WOWMSTracker[realm].AllChars[t].Earned = _G.WOWMSTracker[realm].AllChars[t].Earned + m
-      _G.WOWMSTracker[realm][player][t].Earned = _G.WOWMSTracker[realm][player][t].Earned + m
-   else
-      local money = math.abs(m)
-      _G.WOWMSTracker[realm].AllChars[t].Spent = _G.WOWMSTracker[realm].AllChars[t].Spent + money
-      _G.WOWMSTracker[realm][player][t].Spent = _G.WOWMSTracker[realm][player][t].Spent + money
-   end
-   local pcash = _G.WOWMMGlobal[realm].Chars[player].Cash
-   local cash = pcash + m
-   util.UpdateEarnedSpent(cash, pcash)
-   util.UpdatePlayerCash(cash)
-   util.UpdateZoneEarnedSpent(m)
+  if m > 0 then
+    _G.WOWMSTracker[realm].AllChars[t].Earned = _G.WOWMSTracker[realm].AllChars[t].Earned + m
+    _G.WOWMSTracker[realm][player][t].Earned = _G.WOWMSTracker[realm][player][t].Earned + m
+  else
+    local money = math.abs(m)
+    _G.WOWMSTracker[realm].AllChars[t].Spent = _G.WOWMSTracker[realm].AllChars[t].Spent + money
+    _G.WOWMSTracker[realm][player][t].Spent = _G.WOWMSTracker[realm][player][t].Spent + money
+  end
+  local pcash = _G.WOWMMGlobal[realm].Chars[player].Cash
+  local cash = pcash + m
+  util.UpdateEarnedSpent(cash, pcash)
+  util.UpdatePlayerCash(cash)
+  util.UpdateZoneEarnedSpent(m)
 end
 
 mt.RegisterTracker(TAXI_UUID, 'TAXI', 'TAXIMAP_OPENED', 'TAXIMAP_CLOSED', OnTrigger)

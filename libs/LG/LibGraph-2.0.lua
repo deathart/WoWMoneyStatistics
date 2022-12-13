@@ -263,7 +263,7 @@ local function SetupGraphLineFunctions(graph)
 	graph:SetScript("OnUpdate", graph.OnUpdate)
 end
 
---TODO: Clip lines with the bounds
+--TODO Clip lines with the bounds
 function lib:CreateGraphLine(name, parent, relative, relativeTo, offsetX, offsetY, Width, Height)
 	local graph
 	local i
@@ -1038,7 +1038,7 @@ function GraphFunctions:SetSelectionFunc(f)
 	self.SelectionFunc = f
 end
 
---TODO: Pie chart pieces need to be clickable
+--TODO Pie chart pieces need to be clickable
 function GraphFunctions:PieChart_OnUpdate()
 	if (MouseIsOver(self)) then
 		local sX, sY = self:GetCenter()

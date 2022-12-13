@@ -1,18 +1,18 @@
 local _, addon = ...
 
 local function InitGlobals()
-   _G.WOWMMChar = _G.WOWMMChar or {}
-   _G.WOWMMChar.StatDialog = _G.WOWMMChar.StatDialog or {}
+  _G.WOWMMChar = _G.WOWMMChar or {}
+  _G.WOWMMChar.StatDialog = _G.WOWMMChar.StatDialog or {}
 
-   _G.WOWMSZoneLoot = _G.WOWMSZoneLoot or {}
-   
-   _G.WOWMMGlobal = _G.WOWMMGlobal or {}
-   _G.WOWMSTracker = _G.WOWMSTracker or {}
-   _G.WOWMSZone = _G.WOWMSZone or {}
-   _G.WOWMSProfile = _G.WOWMSProfile or {}
-   _G.WOWMSProfile.Saved = _G.WOWMSProfile.Saved or {}
+  _G.WOWMSZoneLoot = _G.WOWMSZoneLoot or {}
+  
+  _G.WOWMMGlobal = _G.WOWMMGlobal or {}
+  _G.WOWMSTracker = _G.WOWMSTracker or {}
+  _G.WOWMSZone = _G.WOWMSZone or {}
+  _G.WOWMSProfile = _G.WOWMSProfile or {}
+  _G.WOWMSProfile.Saved = _G.WOWMSProfile.Saved or {}
 
-   _G.WOWMSDebug = _G.WOWMSDebug or {}
+  _G.WOWMSDebug = _G.WOWMSDebug or {}
 end
 InitGlobals()
 

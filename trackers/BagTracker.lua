@@ -86,75 +86,75 @@ local BagLootableCount = {}
 local PreviousLootableCount = 0
 
 local function OnTrigger(uuid, t, m)
-   if m > 0 then
-      _G.WOWMSTracker[realm].AllChars[t].Earned = _G.WOWMSTracker[realm].AllChars[t].Earned + m
-      _G.WOWMSTracker[realm][player][t].Earned = _G.WOWMSTracker[realm][player][t].Earned + m
+  if m > 0 then
+    _G.WOWMSTracker[realm].AllChars[t].Earned = _G.WOWMSTracker[realm].AllChars[t].Earned + m
+    _G.WOWMSTracker[realm][player][t].Earned = _G.WOWMSTracker[realm][player][t].Earned + m
 
-      local pcash = _G.WOWMMGlobal[realm].Chars[player].Cash
-      local cash = pcash + m
-      util.UpdateEarnedSpent(cash, pcash)
-      util.UpdatePlayerCash(cash)
-      util.UpdateZoneEarnedSpent(m)
-   else
-      addon.debugError("Losing money from looting a container item?!")
-   end
+    local pcash = _G.WOWMMGlobal[realm].Chars[player].Cash
+    local cash = pcash + m
+    util.UpdateEarnedSpent(cash, pcash)
+    util.UpdatePlayerCash(cash)
+    util.UpdateZoneEarnedSpent(m)
+  else
+    addon.debugError("Losing money from looting a container item?!")
+  end
 end
 
 local function GetBagSlotIdx(bag, slot)
-   return (bag * 100) + slot
+  return (bag * 100) + slot
 end
 
 local function ClearBag(bag)
-   for i = 1, C_Container.GetContainerNumSlots(bag) do
-      local idx = GetBagSlotIdx(bag, i)
-      util.removeFromSet(BagLootables, idx)
-      util.removeFromSet(BagLootableCount, idx)
-   end
+  for i = 1, C_Container.GetContainerNumSlots(bag) do
+    local idx = GetBagSlotIdx(bag, i)
+    util.removeFromSet(BagLootables, idx)
+    util.removeFromSet(BagLootableCount, idx)
+  end
 end
 
 local function GetLootableCount()
-   local count = 0
-   for _, v in pairs(BagLootableCount) do
-      count = count + v
-   end
+  local count = 0
+  for _, v in pairs(BagLootableCount) do
+    count = count + v
+  end
 
-   return count
+  return count
 end
 
 local function CatalogLootableBagItems()
-   PreviousLootableCount = GetLootableCount()
+  PreviousLootableCount = GetLootableCount()
 
-   for bag = 0, NUM_BAG_FRAMES do
-      ClearBag(bag)
+  for bag = 0, NUM_BAG_FRAMES do
+    ClearBag(bag)
 
-      for i = 1, C_Container.GetContainerNumSlots(bag) do
-         local count = select(2, C_Container.GetContainerItemInfo(bag, i))
-         local lootable = select(6, C_Container.GetContainerItemInfo(bag, i))
-         local itemID = select(10, C_Container.GetContainerItemInfo(bag, i))
-         if lootable or util.setContains(LootableItems, itemID) then
-            local idx = GetBagSlotIdx(bag, i)
-            util.addToSet(BagLootables, idx, itemID)
-            util.addToSet(BagLootableCount, idx, count)
-            addon.debugPrint("Lootable", itemID)
-         end
-      end
-   end
+    for i = 1, C_Container.GetContainerNumSlots(bag) do
+        local count = select(2, C_Container.GetContainerItemInfo(bag, i))
+        local lootable = select(6, C_Container.GetContainerItemInfo(bag, i))
+        local itemID = select(10, C_Container.GetContainerItemInfo(bag, i))
+        if lootable or util.setContains(LootableItems, itemID) then
+          local idx = GetBagSlotIdx(bag, i)
+          util.addToSet(BagLootables, idx, itemID)
+          util.addToSet(BagLootableCount, idx, count)
+          addon.debugPrint("Lootable", itemID)
+        end
+    end
+  end
 
-   addon.debugPrint("Lootable items count: ", GetLootableCount(), PreviousLootableCount)
+  addon.debugPrint("Lootable items count: ", GetLootableCount(), PreviousLootableCount)
 end
 
 local function EventHandler(self, event, ...)
-   addon.debugPrint("BagTracker Event", event, ...)
-   CatalogLootableBagItems(bag)
+  addon.debugPrint("BagTracker Event", event, ...)
+  CatalogLootableBagItems(bag)
 end
 
 local function Classify(uuid)
-   addon.debugPrint("BagTracker", "Classify")
-   CatalogLootableBagItems()
-   if PreviousLootableCount > GetLootableCount() then
-      addon.debugPrint("BagTracker", "Looted a lootable item")
-      return uuid, 0
-   end
+  addon.debugPrint("BagTracker", "Classify")
+  CatalogLootableBagItems()
+  if PreviousLootableCount > GetLootableCount() then
+    addon.debugPrint("BagTracker", "Looted a lootable item")
+    return uuid, 0
+  end
 end
 
 -- Order matters here

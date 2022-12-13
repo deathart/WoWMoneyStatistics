@@ -2,8 +2,8 @@ local _, addon = ...
 --[[ !Functions.lua by Camealion @ The Forgotten Coast US
 Use these functions to call skinning functions from ElvUI or Tukui
 Version 1.1
- ]]
- 
+]]
+
 if IsAddOnLoaded("ElvUI") then
 	local E, L, DF = unpack(ElvUI)
 	local S = E:GetModule('Skins')

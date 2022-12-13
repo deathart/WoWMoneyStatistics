@@ -16,53 +16,53 @@ local BankSlotCost = 0
 local ReagentBankCost = 0
 
 local function GetNextBankSlotCost()
-   BankSlotCost = GetBankSlotCost()
-   if BankSlotCost == ALL_SLOTS_PURCHASED_VALUE then
-      BankSlotCost = 0
-   end
+  BankSlotCost = GetBankSlotCost()
+  if BankSlotCost == ALL_SLOTS_PURCHASED_VALUE then
+    BankSlotCost = 0
+  end
 end
 
 local function OnTrigger(uuid, t, m)
-   if m <= 0 then
-      local money = math.abs(m)
-      _G.WOWMSTracker[realm].AllChars[t].Spent = _G.WOWMSTracker[realm].AllChars[t].Spent + money
-      _G.WOWMSTracker[realm][player][t].Spent = _G.WOWMSTracker[realm][player][t].Spent + money
+  if m <= 0 then
+    local money = math.abs(m)
+    _G.WOWMSTracker[realm].AllChars[t].Spent = _G.WOWMSTracker[realm].AllChars[t].Spent + money
+    _G.WOWMSTracker[realm][player][t].Spent = _G.WOWMSTracker[realm][player][t].Spent + money
 
-      local pcash = _G.WOWMMGlobal[realm].Chars[player].Cash
-      local cash = pcash - money
-      util.UpdateEarnedSpent(cash, pcash)
-      util.UpdatePlayerCash(cash)
-      util.UpdateZoneEarnedSpent(m)
-   else
-      addon.debugError("gaining money while purchasing bank slots?!")
-   end
+    local pcash = _G.WOWMMGlobal[realm].Chars[player].Cash
+    local cash = pcash - money
+    util.UpdateEarnedSpent(cash, pcash)
+    util.UpdatePlayerCash(cash)
+    util.UpdateZoneEarnedSpent(m)
+  else
+    addon.debugError("gaining money while purchasing bank slots?!")
+  end
 end
 
 local function OnActivation(...)
-   GetNextBankSlotCost()
-   addon.debugPrint("Activation", BankSlotCost)
+  GetNextBankSlotCost()
+  addon.debugPrint("Activation", BankSlotCost)
 
-   if not IsReagentBankUnlocked() then
-      ReagentBankCost = GetReagentBankCost()
-   else
-      ReagentBankCost = 0
-   end
+  if not IsReagentBankUnlocked() then
+    ReagentBankCost = GetReagentBankCost()
+  else
+    ReagentBankCost = 0
+  end
 end
 
 local function Classify(uuid)
-   addon.debugPrint("Classify", uuid, BankSlotCost, ReagentBankCost)
-   local cost
-   if uuid == BANK_UUID then
-      cost = -BankSlotCost
-      GetNextBankSlotCost()
-      return uuid, cost
-   end
+  addon.debugPrint("Classify", uuid, BankSlotCost, ReagentBankCost)
+  local cost
+  if uuid == BANK_UUID then
+    cost = -BankSlotCost
+    GetNextBankSlotCost()
+    return uuid, cost
+  end
 
-   if uuid == REAGENTBANK_UUID then
-      cost = -ReagentBankCost
-      ReagentBankCost = 0
-      return uuid, cost
-   end
+  if uuid == REAGENTBANK_UUID then
+    cost = -ReagentBankCost
+    ReagentBankCost = 0
+    return uuid, cost
+  end
 end
 
 mt.RegisterDeterminant(BANK_UUID, 'PLAYERBANKBAGSLOTS_CHANGED', Classify)
