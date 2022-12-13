@@ -215,7 +215,7 @@ function MainTracker:DetermineSource()
             RegisteredTrackers.OnTriggerFunction[uuid](uuid, t, m)
 
             if profile.GetVerboseSetting() then
-               c:AddMessage("|cffff6600"..format("%s - ", mt.DisplayNames[t]).."|r"..util.FormatMoney(m, true))
+               c:AddMessage("|cffff6600"..format("%s: ", mt.DisplayNames[t]).."|r"..util.FormatMoney(m, true))
             end
             addon.debugPrint("DetermineSource", "DeterminantTriggered Activation", t, mt.DisplayNames[t], m)
             

@@ -1,8 +1,8 @@
-## Interface: 90002
-## Title: WoW Money Statistics
-## Notes: View statistics on gold usage
-## Version: 2.3.1
-## Author: Ræy - US-Hyjal
+## Interface: 100002
+## Title: WoW Money Statistics Modified
+## Notes: A modified version of |cff1784d1Wow Money Statistics by Rï¿½y - US-Hyjal|r
+## Version: 3.0.0
+## Author: redfelin - EU-Cho'gall
 ## SavedVariablesPerCharacter: WOWMMChar, WOWMSZoneLoot
 ## SavedVariables: WOWMMGlobal, WOWMSTracker, WOWMSZone, WOWMSProfile, WOWMSDebug
 ## OptionalDeps: MBB, SexyMap, ElvUI
@@ -26,7 +26,3 @@ Tracker.lua
 trackers\embed.xml
 StatDisplay.lua
 Debug.lua
-
-#@debug@
-.tests\embed.xml
-#@end-debug@

@@ -3,14 +3,16 @@ Prototype_Menu =
    OnLoad = nil,
 }
 
+local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+
 function Prototype_Menu:NewContextMenu(name, o)
    o = o or {}
    setmetatable(o, self)
    self.__index = self
-   o.menu = L_Create_UIDropDownMenu(name, UIParent)
+   o.menu = LibDD:Create_UIDropDownMenu(name, UIParent)
    o.menu.isOpen = false
 
-   L_UIDropDownMenu_Initialize(o.menu, o.OnLoad, "MENU", 1)
+   LibDD:UIDropDownMenu_Initialize(o.menu, o.OnLoad, "MENU", 1)
 
    return o
 end
@@ -19,10 +21,10 @@ function Prototype_Menu:NewDropDownMenu(name, parent, o)
    o = o or {}
    setmetatable(o, self)
    self.__index = self
-   o.menu = L_Create_UIDropDownMenu(name, parent)
+   o.menu = LibDD:Create_UIDropDownMenu(name, parent)
    o.menu.isOpen = false
 
-   L_UIDropDownMenu_Initialize(o.menu, o.OnLoad)
+   LibDD:UIDropDownMenu_Initialize(o.menu, o.OnLoad)
 
    return o
 end
@@ -32,7 +34,7 @@ function Prototype_Menu:AddOption(text, level, func)
    info.text = text
    info.notCheckable = 1
    info.func = func
-   L_UIDropDownMenu_AddButton(info, level)
+   LibDD:UIDropDownMenu_AddButton(info, level)
 end
 
 function Prototype_Menu:AddDescriptor(text, level, isTitle)
@@ -44,7 +46,7 @@ function Prototype_Menu:AddDescriptor(text, level, isTitle)
       info.notClickable = 1
    end
    info.notCheckable = 1
-   L_UIDropDownMenu_AddButton(info, level)
+   LibDD:UIDropDownMenu_AddButton(info, level)
 end
 
 function Prototype_Menu:AddRadioOption(text, checkFunc, level, func)
@@ -53,7 +55,7 @@ function Prototype_Menu:AddRadioOption(text, checkFunc, level, func)
    info.checked = checkFunc
    info.func = func
    info.keepShownOnClick = true
-   L_UIDropDownMenu_AddButton(info, level)
+   LibDD:UIDropDownMenu_AddButton(info, level)
 end
 
 function Prototype_Menu:AddCheckOption(text, checkFunc, level, func)
@@ -63,7 +65,7 @@ function Prototype_Menu:AddCheckOption(text, checkFunc, level, func)
    info.func = func
    info.keepShownOnClick = true
    info.isNotRadio = true
-   L_UIDropDownMenu_AddButton(info, level)
+   LibDD:UIDropDownMenu_AddButton(info, level)
 end
 
 function Prototype_Menu:AddMenu(text, level, menuList)
@@ -73,7 +75,7 @@ function Prototype_Menu:AddMenu(text, level, menuList)
    info.hasArrow = true
    info.notCheckable = 1
 
-   L_UIDropDownMenu_AddButton(info, level)
+   LibDD:UIDropDownMenu_AddButton(info, level)
 end
 
 function Prototype_Menu:ToggleMenu(anchor)
@@ -102,7 +104,7 @@ function Prototype_Menu:ToggleMenu(anchor)
       end
    end
 
-   L_ToggleDropDownMenu(1, nil, self.menu, anchor, 0, 0)
+   LibDD:ToggleDropDownMenu(1, nil, self.menu, anchor, 0, 0)
 end
 
 function Prototype_Menu:OpenMenu(anchor)
@@ -119,11 +121,11 @@ function Prototype_Menu:CloseMenu()
    --end
    --self:ToggleMenu()
    self.menu.isOpen = false
-   L_CloseDropDownMenus()
+   LibDD:CloseDropDownMenus()
 end
 
 function Prototype_Menu:Refresh()
-   L_UIDropDownMenu_RefreshAll(self.menu, nil)
+   LibDD:UIDropDownMenu_RefreshAll(self.menu, nil)
 end
 
 function Prototype_Menu:IsMenuOpen()
@@ -131,11 +133,11 @@ function Prototype_Menu:IsMenuOpen()
 end
 
 function Prototype_Menu:SetWidth(w)
-   L_UIDropDownMenu_SetWidth(self.menu, w)
+   LibDD:UIDropDownMenu_SetWidth(self.menu, w)
 end
 
 function Prototype_Menu:SetText(text)
-   L_UIDropDownMenu_SetText(self.menu, text)
+   LibDD:UIDropDownMenu_SetText(self.menu, text)
 end
 
 function Prototype_Menu:SetPoint(point, relativeFrame, relativePoint, ofsx, ofsy)
