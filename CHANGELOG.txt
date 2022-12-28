@@ -1,3 +1,9 @@
+Unreleased
+- Update chat message with new color scheme
+
+v2.3.2
+- Updates for DF
+
 v2.3.1-a02
 - Fix Issue #1 - Sending money through mail with TSM incorrectly categorizes money as postage
 
@@ -238,8 +244,8 @@ v1.0.3:
 - Fixed a font issue where a font was not loading correctly.
 - Added Wow Token Price display option.
 - Added two slash commands:
-   "/wms minimap show" - Show the minimap icon
-   "/wms minimap hide" - Hide the minimap icon
+ï¿½ ï¿½"/wms minimap show" - Show the minimap icon
+ï¿½ ï¿½"/wms minimap hide" - Hide the minimap icon
 
 v1.0.2:
 - Added Week (Resets on Tuesdays), Month and Year (Cause why not).

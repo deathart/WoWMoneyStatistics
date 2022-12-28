@@ -192,92 +192,105 @@ end
 function MainTracker:DetermineSource()
   local money = GetMoney() - MainTracker.Money
   addon.debugPrintTable(ActiveTrackers)
-  addon.debugPrint(money)
+  addon.debugPrint(MainTracker.Money)
   local c = _G.DEFAULT_CHAT_FRAME;
   local catagorized = false
-
   local UnderSpecified
+  local moreLess = "+"
+  local moreLessColor = "|cff00ff00"
+
+  if string.find(money, "-") then
+    moreLess = "-"
+    moreLessColor = "|cffff0000"
+  end
+
   for uuid, v in pairs(ActiveTrackers.Trackers) do
     local m, t
     local reset = true
+
     if v.DeterminantTriggered and v.Catagorized == false then
-        if v.DeterminantCount > 1 and math.abs(v.Money) > math.abs(money) then
-          m = money
-          v.Money = v.Money - m
-          reset = false
-        else
-          m = v.Money
+      if v.DeterminantCount > 1 and math.abs(v.Money) > math.abs(money) then
+        m = money
+        v.Money = v.Money - m
+        reset = false
+      else
+        m = v.Money
+      end
+      t = v.Tracker
+
+      if m ~= 0 and money ~= 0 then
+        money = money - m
+        RegisteredTrackers.OnTriggerFunction[uuid](uuid, t, m)
+
+        if profile.GetVerboseSetting() then
+          c:AddMessage("|cffff6600"..format("%s: ", mt.DisplayNames[t]).."|r".." "..format("%s", moreLessColor)..format("%s", moreLess).." |r"..util.FormatMoney(m, true))
         end
-        t = v.Tracker
 
-        if m ~= 0 and money ~= 0 then
-          money = money - m
-          RegisteredTrackers.OnTriggerFunction[uuid](uuid, t, m)
-
-          if profile.GetVerboseSetting() then
-              c:AddMessage("|cffff6600"..format("%s: ", mt.DisplayNames[t]).."|r"..util.FormatMoney(m, true))
-          end
-          addon.debugPrint("DetermineSource", "DeterminantTriggered Activation", t, mt.DisplayNames[t], m)
-          
-          if money == 0 then
-              catagorized = true
-          end
-
-          if reset then
-              v.DeterminantTriggered = false
-              v.Catagorized = true
-              v.Money = 0
-              v.DeterminantCount = 0
-          end
-        else
-          UnderSpecified = uuid
+        addon.debugPrint("DetermineSource", "DeterminantTriggered Activation", t, mt.DisplayNames[t], m)
+        
+        if money == 0 then
+            catagorized = true
         end
+
+        if reset then
+          v.DeterminantTriggered = false
+          v.Catagorized = true
+          v.Money = 0
+          v.DeterminantCount = 0
+        end
+      else
+        UnderSpecified = uuid
+      end
     end
   end
 
   if catagorized == false and ActiveTrackers.LastDeactivatedTracker ~= nil then
     if ActiveTrackers.LastDeactivatedTracker.Money == 0 then
-        ActiveTrackers.LastDeactivatedTracker.Money = money
+      ActiveTrackers.LastDeactivatedTracker.Money = money
     end
+
     local m = ActiveTrackers.LastDeactivatedTracker.Money
     local t = ActiveTrackers.LastDeactivatedTracker.Tracker
     local uuid = ActiveTrackers.LastDeactivatedTracker.UUID
 
     RegisteredTrackers.OnTriggerFunction[uuid](uuid, t, m)
     money = money - m
+
     if money == 0 then
         catagorized = true
     end
 
     if profile.GetVerboseSetting() then
-        c:AddMessage("|cffff6600"..format("%s - ", mt.DisplayNames[t]).."|r"..util.FormatMoney(m, true))
+      c:AddMessage("|cffff6600"..format("%s: ", mt.DisplayNames[t]).."|r".." "..format("%s", moreLessColor)..format("%s", moreLess).." |r"..util.FormatMoney(m, true))
     end
+
     addon.debugPrint("DetermineSource", "LastDeactivatedTracker Activation", t, mt.DisplayNames[t], m)
   end
 
   if UnderSpecified then
     if money ~= 0 then
-        local m, t, v, uuid
-        uuid = UnderSpecified
-        m = money
-        money = money - m
-        v = ActiveTrackers.Trackers[uuid]
-        t = v.Tracker
-        catagorized = true
-        v.DeterminantTriggered = false
-        v.Catagorized = true
-        RegisteredTrackers.OnTriggerFunction[uuid](uuid, t, m)
+      local m, t, v, uuid
+      uuid = UnderSpecified
+      m = money
+      money = money - m
+      v = ActiveTrackers.Trackers[uuid]
+      t = v.Tracker
+      catagorized = true
+      v.DeterminantTriggered = false
+      v.Catagorized = true
+      RegisteredTrackers.OnTriggerFunction[uuid](uuid, t, m)
 
-        if profile.GetVerboseSetting() then
-          c:AddMessage("|cffff6600"..format("%s - ", mt.DisplayNames[t]).."|r"..util.FormatMoney(m, true))
-        end
-        addon.debugPrint("DetermineSource", "UnderSpecified Activation", t, mt.DisplayNames[t], m)
+      if profile.GetVerboseSetting() then
+        c:AddMessage("|cffff6600"..format("%s: ", mt.DisplayNames[t]).."|r".." "..format("%s", moreLessColor)..format("%s", moreLess).." |r"..util.FormatMoney(m, true))
+      end
+
+      addon.debugPrint("DetermineSource", "UnderSpecified Activation", t, mt.DisplayNames[t], m)
     else
-        local v, uuid
-        uuid = UnderSpecified
-        v = ActiveTrackers.Trackers[uuid]
-        v.DeterminantTriggered = false
-        v.Catagorized = true
+      local v, uuid
+      uuid = UnderSpecified
+      v = ActiveTrackers.Trackers[uuid]
+      v.DeterminantTriggered = false
+      v.Catagorized = true
     end
   end
 
@@ -300,7 +313,7 @@ function MainTracker:DetermineSource()
         catagorized = true
 
         if profile.GetVerboseSetting() then
-          c:AddMessage("|cffff6600"..format("%s - ", mt.DisplayNames[t]).."|r"..util.FormatMoney(m, true))
+          c:AddMessage("|cffff6600"..format("%s: ", mt.DisplayNames[t]).."|r".." "..format("%s", moreLessColor)..format("%s", moreLess).." |r"..util.FormatMoney(m, true))
         end
         addon.debugPrint("DetermineSource", "One Active Activation", t, mt.DisplayNames[t], m)
     end
@@ -321,7 +334,7 @@ function MainTracker:DetermineSource()
     core.UpdatePersistantVariables()
 
     if profile.GetVerboseSetting() then
-        c:AddMessage("|cffff6600".."! - WMS - UNKNOWN Transaction - ! - ".."|r"..util.FormatMoney(m, true))
+        c:AddMessage("|cffff6600".."! - WMS - UNKNOWN Transaction - ! - ".."|r".." "..format("%s", moreLessColor)..format("%s", moreLess).." |r"..util.FormatMoney(m, true))
         --[===[@debug
         PlaySound(SOUNDKIT.ALARM_CLOCK_WARNING_2)
         --@end-debug]===]

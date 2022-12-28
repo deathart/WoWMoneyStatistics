@@ -7,7 +7,7 @@
    <Script file="LibUIDropDownMenu/LibUIDropDownMenu.lua"/>
    <!--<Script file="LibUIDropDownMenu/LibUIDropDownMenuTemplates.lua"/>-->
 
-   <Script file="LG\LibGraph-2.0.lua"/>
+   <Script file="LibGraph-2.0\LibGraph-2.0.lua"/>
    <Script file="Prototype_Menu.lua"/>
    <Script file="Prototype_MMB.lua"/>
    <Script file="fonts/Prototype_Fonts.lua"/>

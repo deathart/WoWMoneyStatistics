@@ -100,9 +100,9 @@ function cSkinSliderFrame(frame)
 end
 
 function cSkinMaxMinFrame(frame)
-   if ElvUI then
-      s:HandleMaxMinFrame(frame)
-   end
+  if ElvUI then
+    s:HandleMaxMinFrame(frame)
+  end
 end
 
 function cDesaturate(f, point)
@@ -123,20 +123,20 @@ function cDesaturate(f, point)
 end
 
 function cSkinFrame(frame)
-   if ElvUI then
-      frame:StripTextures()
-      frame:SetTemplate("Transparent")
-   end
+  if ElvUI then
+    frame:StripTextures()
+    frame:SetTemplate("Transparent")
+  end
 end
 
 function cTooltipFont(tooltip)
-   if ElvUI then
-      local font  = c.LSM:Fetch("font", c.db.tooltip.font)
-      local fontSize = c.db.tooltip.fontSize or 12
-      local outline = c.db.tooltip.fontOutline
+  if ElvUI then
+    local font  = c.LSM:Fetch("font", c.db.tooltip.font)
+    local fontSize = c.db.tooltip.fontSize or 12
+    local outline = c.db.tooltip.fontOutline
 
-      font = gsub(font, "/", "//")
+    font = gsub(font, "/", "//")
 
-      -- tooltip:SetFont(font, fontSize, outline)
-   end
+    tooltip:FontTemplate(font, fontSize, outline)
+  end
 end
